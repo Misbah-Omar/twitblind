@@ -1,0 +1,39 @@
+{
+  "project_info": {
+    "project_number": "82945320504",
+    "project_id": "twitblind",
+    "storage_bucket": "twitblind.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:82945320504:android:1198878ae0b2b57734e8cd",
+        "android_client_info": {
+          "package_name": "com.example.twitblind"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "82945320504-9u5uq5i76l7rsn40ufs8r316ci1afa1q.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyC6-nonthIqqaKeVfJFQw5G5wuhqwcqhC4"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "82945320504-9u5uq5i76l7rsn40ufs8r316ci1afa1q.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
