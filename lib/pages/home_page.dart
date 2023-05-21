@@ -1,3 +1,4 @@
+import 'package:alan_voice/alan_voice.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 // import 'package:firebase_core/firebase_core.dart';
@@ -17,60 +18,79 @@ class HomePage extends StatefulWidget {
 
 class _HomePageState extends State<HomePage> {
   // speech to text
-  SpeechToText stt = SpeechToText();
-  // late FlutterTts _flutterTts;
-  bool _isListening = false;
-  String _text = '';
+  // SpeechToText stt = SpeechToText();
+  // // late FlutterTts _flutterTts;
+  // bool _isListening = false;
+  // String _text = '';
   // user
   final currentUser = FirebaseAuth.instance.currentUser!;
   final textController = TextEditingController();
+
+  _HomePageState() {
+    /// Init Alan Button with project key from Alan AI Studio
+    AlanVoice.addButton(
+        "a145b61158ba93cd321b2b77a19738aa2e956eca572e1d8b807a3e2338fdd0dc/stage",
+        buttonAlign: AlanVoice.BUTTON_ALIGN_LEFT);
+
+    /// Handle commands from Alan AI Studio
+    AlanVoice.onCommand.add((command) => _handleCommand(command.data));
+  }
 
   void signOut() {
     FirebaseAuth.instance.signOut();
   }
 
+  // Sign in command Alan AI
+  void _handleCommand(Map<String, dynamic> command) {
+    switch (command["command"]) {
+      case "Sign out  ":
+        signOut();
+        break;
+    }
+  }
+
   void postMessage() {
     //only post if something is in the textfield
-    // if (textController.text.isNotEmpty)
-    if (_text.isNotEmpty) {
+    if (textController.text.isNotEmpty) {
       // Store in firebase
       FirebaseFirestore.instance.collection("User Posts").add({
         'UserEmail': currentUser.email,
-        'Message': _text,
+        'Message': textController.text,
         'TimeStamp': Timestamp.now(),
       });
     }
   }
 
-  @override
-  void initState() {
-    initializeAudio();
-    super.initState();
-    // _speechToText = stt.SpeechToText();
-    // _flutterTts = FlutterTts();
-  }
+  //  @override
+  // void initState() {
+  //   initializeAudio();
+  //   super.initState();
+  //   // _speechToText = stt.SpeechToText();
+  //   // _flutterTts = FlutterTts();
+  // }
 
-  initializeAudio() async {
-    stt.initialize();
-  }
+  // initializeAudio() async{
+  //   stt.initialize();
+  // }
 
-  void _startListening() {
-    if (stt.isAvailable) {
-      if (!_isListening) {
-        stt.listen(onResult: (result) {
-          setState(() {
-            _text = result.recognizedWords;
-            _isListening = true;
-          });
-        });
-      } else {
-        setState(() {
-          _isListening = false;
-          stt.stop();
-        });
-      }
-    }
-  }
+  // void _startListening() {
+  //   if(stt.isAvailable) {
+  //     if(!_isListening) {
+  //       stt.listen(onResult: (result){
+  //         setState(() {
+  //           _text = result.recognizedWords;
+  //           _isListening = true;
+  //         });
+  //       });
+  //     }
+  //     else {
+  //       setState(() {
+  //         _isListening = false;
+  //       stt.stop();
+  //       });
+  //     }
+  //   }
+  // }
 
   @override
   Widget build(BuildContext context) {
@@ -125,19 +145,15 @@ class _HomePageState extends State<HomePage> {
                 children: [
                   //Textfield
                   Expanded(
-                    // child: MyTextField(
-                    //   controller: textController,
-                    //   hintText: 'Write something in the feed',
-                    //   obscureText: false,
-                    // ),
-                    child: Container(
-                      child: Text(_text),
+                    child: MyTextField(
+                      controller: textController,
+                      hintText: 'Write something in the feed',
+                      obscureText: false,
                     ),
                   ),
                   //Post button
                   IconButton(
-                    onPressed: _startListening,
-                    tooltip: 'Increment',
+                    onPressed: postMessage,
                     icon: const Icon(Icons.arrow_circle_up),
                   )
                 ],

@@ -3,7 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:twitblind/components/my_button.dart';
 import 'package:twitblind/components/my_textfield.dart';
 import 'package:twitblind/components/square_tile.dart';
-// import 'package:alan_voice/alan_voice.dart';
+import 'package:alan_voice/alan_voice.dart';
 
 class LoginPage extends StatefulWidget {
   final Function()? onTap;
@@ -18,30 +18,30 @@ class _LoginPageState extends State<LoginPage> {
 
   _LoginPageState() {
     /// Init Alan Button with project key from Alan AI Studio
-    // AlanVoice.addButton(
-    //     "a145b61158ba93cd321b2b77a19738aa2e956eca572e1d8b807a3e2338fdd0dc/stage",
-    //     buttonAlign: AlanVoice.BUTTON_ALIGN_LEFT);
+    AlanVoice.addButton(
+        "a145b61158ba93cd321b2b77a19738aa2e956eca572e1d8b807a3e2338fdd0dc/stage",
+        buttonAlign: AlanVoice.BUTTON_ALIGN_LEFT);
 
-    // /// Handle commands from Alan AI Studio
-    // AlanVoice.onCommand.add((command) => _handleCommand(command.data));
+    /// Handle commands from Alan AI Studio
+    AlanVoice.onCommand.add((command) => _handleCommand(command.data));
   }
 
-  //Sign in command Alan AI
-  // void _handleCommand(Map<String, dynamic> command) {
-  //   switch (command[command]) {
-  //     case 'sign in':
-  //       signUserIn();
-  //       break;
-  //     case "getName":
-  //       emailTextController.text = command["text"];
-  //       break;
-  //     case "getPassword":
-  //       passwordTextController.text = command["text"];
-  //       break;
-  //     default:
-  //       debugPrint("Unknown Command");
-  //   }
-  // }
+  // Sign in command Alan AI
+  void _handleCommand(Map<String, dynamic> command) {
+    switch (command["command"]) {
+      case "Sign in":
+        signUserIn();
+        break;
+      case "getName":
+        emailTextController.text = command["text"];
+        break;
+      case "getPassword":
+        passwordTextController.text = command["text"];
+        break;
+      default:
+        debugPrint("Unknown Command");
+    }
+  }
 
   // text editing controllers
   final emailTextController = TextEditingController();
@@ -57,10 +57,10 @@ class _LoginPageState extends State<LoginPage> {
   // sign user in method
   void signUserIn() async {
     //Loading circle
-    showDialog(
-      context: context,
-      builder: (context) => const Center(child: CircularProgressIndicator()),
-    );
+    // showDialog(
+    //   context: context,
+    //   builder: (context) => const Center(child: CircularProgressIndicator()),
+    // );
     try {
       await FirebaseAuth.instance.signInWithEmailAndPassword(
         email: emailTextController.text,
@@ -114,20 +114,39 @@ class _LoginPageState extends State<LoginPage> {
               const SizedBox(height: 25),
 
               // username textfield
-              MyTextField(
+              // MyTextField(
+              //   controller: emailTextController,
+              //   hintText: 'Username',
+              //   obscureText: false,
+              // ),
+              TextFormField(
                 controller: emailTextController,
-                hintText: 'Username',
-                obscureText: false,
+                validator: (value) {
+                  if (value == null || value.isEmpty) {
+                    return 'please enter some text';
+                  }
+                  return null;
+                },
+              ),
+
+              TextFormField(
+                controller: passwordTextController,
+                validator: (value) {
+                  if (value == null || value.isEmpty) {
+                    return 'please enter some text';
+                  }
+                  return null;
+                },
               ),
 
               const SizedBox(height: 10),
 
               // password textfield
-              MyTextField(
-                controller: passwordTextController,
-                hintText: 'Password',
-                obscureText: true,
-              ),
+              // MyTextField(
+              //   controller: passwordTextController,
+              //   hintText: 'Password',
+              //   obscureText: true,
+              // ),
 
               const SizedBox(height: 10),
 
