@@ -144,13 +144,6 @@ packages:
     description: flutter
     source: sdk
     version: "0.0.0"
-  flutter_tts:
-    dependency: "direct main"
-    description:
-      name: flutter_tts
-      url: "https://pub.flutter-io.cn"
-    source: hosted
-    version: "3.6.3"
   flutter_web_plugins:
     dependency: transitive
     description: flutter
@@ -245,13 +238,6 @@ packages:
       url: "https://pub.flutter-io.cn"
     source: hosted
     version: "1.9.1"
-  speech_recognition:
-    dependency: "direct main"
-    description:
-      name: speech_recognition
-      url: "https://pub.flutter-io.cn"
-    source: hosted
-    version: "0.3.0+1"
   speech_to_text:
     dependency: "direct main"
     description:

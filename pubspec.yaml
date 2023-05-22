@@ -40,9 +40,8 @@ dependencies:
   firebase_auth: ^4.6.1
   alan_voice: ^4.1.0
   cloud_firestore: ^4.7.1
-  speech_recognition: ^0.3.0+1
   speech_to_text: ^6.1.1
-  flutter_tts: ^3.6.3
+  # speech_recognition: ^0.3.0+1
 
 dev_dependencies:
   flutter_test:
