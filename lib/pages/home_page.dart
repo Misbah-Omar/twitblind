@@ -17,6 +17,7 @@ class HomePage extends StatefulWidget {
 }
 
 class _HomePageState extends State<HomePage> {
+  final _formkey = GlobalKey<FormState>;
   // speech to text
   // SpeechToText stt = SpeechToText();
   // // late FlutterTts _flutterTts;
@@ -40,15 +41,6 @@ class _HomePageState extends State<HomePage> {
     FirebaseAuth.instance.signOut();
   }
 
-  // Sign in command Alan AI
-  void _handleCommand(Map<String, dynamic> command) {
-    switch (command["command"]) {
-      case "Sign out  ":
-        signOut();
-        break;
-    }
-  }
-
   void postMessage() {
     //only post if something is in the textfield
     if (textController.text.isNotEmpty) {
@@ -61,6 +53,26 @@ class _HomePageState extends State<HomePage> {
     }
   }
 
+  // Sign in command Alan AI
+  void _handleCommand(Map<String, dynamic> command) {
+    switch (command["command"]) {
+      case "Sign out":
+        signOut();
+        break;
+      case "getTweet":
+        textController.text = command["text"];
+        postMessage();
+        break;
+      default:
+        debugPrint("wrong command");
+    }
+  }
+
+  @override
+  void dispose() {
+    textController.dispose();
+    super.dispose();
+  }
   //  @override
   // void initState() {
   //   initializeAudio();
@@ -145,10 +157,19 @@ class _HomePageState extends State<HomePage> {
                 children: [
                   //Textfield
                   Expanded(
-                    child: MyTextField(
+                    // child: MyTextField(
+                    //   controller: textController,
+                    //   hintText: 'Write something in the feed',
+                    //   obscureText: false,
+                    // ),
+                    child: TextFormField(
                       controller: textController,
-                      hintText: 'Write something in the feed',
-                      obscureText: false,
+                      validator: (value) {
+                        if (value == null || value.isEmpty) {
+                          return 'please enter some text';
+                        }
+                        return null;
+                      },
                     ),
                   ),
                   //Post button
