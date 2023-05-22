@@ -32,7 +32,7 @@ class _HomePageState extends State<HomePage> {
   _HomePageState() {
     /// Init Alan Button with project key from Alan AI Studio
     AlanVoice.addButton(
-        "a145b61158ba93cd321b2b77a19738aa2e956eca572e1d8b807a3e2338fdd0dc/stage",
+        "893f43e48d33542fd144e05a55327f9f2e956eca572e1d8b807a3e2338fdd0dc/stage",
         buttonAlign: AlanVoice.BUTTON_ALIGN_LEFT);
 
     /// Handle commands from Alan AI Studio
@@ -64,6 +64,9 @@ class _HomePageState extends State<HomePage> {
       case "getTweet":
         textController.text = command["text"];
         postMessage();
+        break;
+      case "Profile page":
+        goToProfile();
         break;
       default:
         debugPrint("wrong command");
