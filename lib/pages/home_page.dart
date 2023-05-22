@@ -4,8 +4,10 @@ import 'package:firebase_auth/firebase_auth.dart';
 // import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
 import 'package:speech_to_text/speech_recognition_result.dart';
+import 'package:twitblind/components/drawer.dart';
 import 'package:twitblind/components/feed_post.dart';
 import 'package:speech_to_text/speech_to_text.dart';
+import 'package:twitblind/pages/profile_page.dart';
 
 import '../components/my_textfield.dart';
 
@@ -104,6 +106,20 @@ class _HomePageState extends State<HomePage> {
   //   }
   // }
 
+  // Navigate to profile page
+  void goToProfile() {
+    //pop menu drawer
+    Navigator.pop(context);
+
+    //Go to profile page
+    Navigator.push(
+      context,
+      MaterialPageRoute(
+        builder: (context) => ProfilePage(),
+      ),
+    );
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -117,6 +133,10 @@ class _HomePageState extends State<HomePage> {
             icon: Icon(Icons.logout),
           ),
         ],
+      ),
+      drawer: MyDrawer(
+        onProfileTap: goToProfile,
+        onSignOut: signOut,
       ),
       body: Center(
         child: Column(
