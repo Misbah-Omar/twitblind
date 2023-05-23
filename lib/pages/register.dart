@@ -1,3 +1,5 @@
+import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 
 import '../components/my_button.dart';
@@ -19,7 +21,55 @@ class _RegisterPageState extends State<RegisterPage> {
   final confirmPasswordTextController = TextEditingController();
 
   // sign user in method
-  void signUserIn() {}
+  void signUserUp() async {
+    showDialog(
+      context: context,
+      builder: ((context) => const Center(
+            child: CircularProgressIndicator(),
+          )),
+    );
+    //make sure passwords match
+    if (passwordController.text != confirmPasswordTextController.text) {
+      //pop loading circle
+      Navigator.pop(context);
+      // Show error to user
+      displayMessage("Passwords dont match");
+      return;
+    }
+
+    //try creating the user
+    try {
+      UserCredential userCredential = await FirebaseAuth.instance
+          .createUserWithEmailAndPassword(
+              email: usernameController.text,
+              password: passwordController.text);
+
+      //After creating a user, Creating a new doc in firbase called Users
+      FirebaseFirestore.instance
+          .collection("Users")
+          .doc(userCredential.user!.email!)
+          .set({
+        'username': usernameController.text.split('@')[0], // Initial Username
+        'bio': 'Empty bio...' //Initally empty bio
+      });
+
+      //pop circle
+      // if (context.mounted) Navigator.pop(context);
+    } on FirebaseAuthException catch (e) {
+      // Pop loading circle
+      Navigator.pop(context);
+      // Show error to user
+      displayMessage(e.code);
+    }
+  }
+
+  void displayMessage(String message) {
+    showDialog(
+        context: context,
+        builder: (context) => AlertDialog(
+              title: Text(message),
+            ));
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -53,30 +103,57 @@ class _RegisterPageState extends State<RegisterPage> {
                 const SizedBox(height: 25),
 
                 // username textfield
-                MyTextField(
+                TextFormField(
                   controller: usernameController,
-                  hintText: 'Username',
-                  obscureText: false,
+                  validator: (value) {
+                    if (value == null || value.isEmpty) {
+                      return 'please enter some text';
+                    }
+                    return null;
+                  },
                 ),
+                // MyTextField(
+                //   controller: usernameController,
+                //   hintText: 'Username',
+                //   obscureText: false,
+                // ),
 
                 const SizedBox(height: 10),
 
                 // Confirm Password textfield
-
-                MyTextField(
+                TextFormField(
                   controller: passwordController,
-                  hintText: 'Password',
-                  obscureText: true,
+                  validator: (value) {
+                    if (value == null || value.isEmpty) {
+                      return 'please enter some text';
+                    }
+                    return null;
+                  },
                 ),
+
+                // MyTextField(
+                //   controller: passwordController,
+                //   hintText: 'Password',
+                //   obscureText: true,
+                // ),
 
                 const SizedBox(height: 10),
 
                 // password textfield
-                MyTextField(
+                TextFormField(
                   controller: confirmPasswordTextController,
-                  hintText: 'Confirm Password',
-                  obscureText: true,
+                  validator: (value) {
+                    if (value == null || value.isEmpty) {
+                      return 'please enter some text';
+                    }
+                    return null;
+                  },
                 ),
+                // MyTextField(
+                //   controller: confirmPasswordTextController,
+                //   hintText: 'Confirm Password',
+                //   obscureText: true,
+                // ),
 
                 const SizedBox(height: 10),
 
@@ -96,9 +173,9 @@ class _RegisterPageState extends State<RegisterPage> {
 
                 const SizedBox(height: 25),
 
-                // sign in button
+                // sign up button
                 MyButton(
-                  onTap: () {},
+                  onTap: signUserUp,
                   texts: 'Sign Up',
                 ),
 

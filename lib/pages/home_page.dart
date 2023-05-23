@@ -1,9 +1,15 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 // import 'package:firebase_core/firebase_core.dart';
+import 'package:alan_voice/alan_voice.dart';
+
 import 'package:flutter/material.dart';
+import 'package:speech_to_text/speech_recognition_result.dart';
+import 'package:twitblind/components/drawer.dart';
 import 'package:flutter_tts/flutter_tts.dart';
 import 'package:twitblind/components/feed_post.dart';
+import 'package:speech_to_text/speech_to_text.dart';
+import 'package:twitblind/pages/profile_page.dart';
 
 import '../components/my_textfield.dart';
 
@@ -15,6 +21,7 @@ class HomePage extends StatefulWidget {
 }
 
 class _HomePageState extends State<HomePage> {
+  final _formkey = GlobalKey<FormState>;
   // speech to text
   // SpeechToText stt = SpeechToText();
   // // late FlutterTts _flutterTts;
@@ -24,32 +31,19 @@ class _HomePageState extends State<HomePage> {
   final currentUser = FirebaseAuth.instance.currentUser!;
   final textController = TextEditingController();
 
-  final FlutterTts tts = FlutterTts();
-  // _HomePageState() {
-  /// Init Alan Button with project key from Alan AI Studio
-  // AlanVoice.addButton(
-  //     "a145b61158ba93cd321b2b77a19738aa2e956eca572e1d8b807a3e2338fdd0dc/stage",
-  //     buttonAlign: AlanVoice.BUTTON_ALIGN_LEFT);
+  _HomePageState() {
+    /// Init Alan Button with project key from Alan AI Studio
+    AlanVoice.addButton(
+        "893f43e48d33542fd144e05a55327f9f2e956eca572e1d8b807a3e2338fdd0dc/stage",
+        buttonAlign: AlanVoice.BUTTON_ALIGN_LEFT);
 
-  // /// Handle commands from Alan AI Studio
-  // AlanVoice.onCommand.add((command) => _handleCommand(command.data));
-  // }
-
-  void speakText(String textss) async {
-    await tts.speak(textss);
+    // /// Handle commands from Alan AI Studio
+    AlanVoice.onCommand.add((command) => _handleCommand(command.data));
   }
+  final FlutterTts tts = FlutterTts();
 
   void signOut() {
     FirebaseAuth.instance.signOut();
-  }
-
-  // Sign in command Alan AI
-  void _handleCommand(Map<String, dynamic> command) {
-    switch (command["command"]) {
-      case "Sign out  ":
-        signOut();
-        break;
-    }
   }
 
   void postMessage() {
@@ -64,6 +58,29 @@ class _HomePageState extends State<HomePage> {
     }
   }
 
+  // Sign in command Alan AI
+  void _handleCommand(Map<String, dynamic> command) {
+    switch (command["command"]) {
+      case "Sign out":
+        signOut();
+        break;
+      case "getTweet":
+        textController.text = command["text"];
+        postMessage();
+        break;
+      case "Profile page":
+        goToProfile();
+        break;
+      default:
+        debugPrint("wrong command");
+    }
+  }
+
+  @override
+  void dispose() {
+    textController.dispose();
+    super.dispose();
+  }
   //  @override
   // void initState() {
   //   initializeAudio();
@@ -95,6 +112,20 @@ class _HomePageState extends State<HomePage> {
   //   }
   // }
 
+  // Navigate to profile page
+  void goToProfile() {
+    //pop menu drawer
+    Navigator.pop(context);
+
+    //Go to profile page
+    Navigator.push(
+      context,
+      MaterialPageRoute(
+        builder: (context) => ProfilePage(),
+      ),
+    );
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -108,6 +139,77 @@ class _HomePageState extends State<HomePage> {
             icon: Icon(Icons.logout),
           ),
         ],
+      ),
+      drawer: MyDrawer(
+        onProfileTap: goToProfile,
+        onSignOut: signOut,
+      ),
+      body: Center(
+        child: Column(
+          children: [
+            // Feed
+            Expanded(
+              child: StreamBuilder(
+                stream: FirebaseFirestore.instance
+                    .collection("User posts")
+                    .orderBy("TimeStamp", descending: false)
+                    .snapshots(),
+                builder: (context, snapshot) {
+                  if (snapshot.hasData) {
+                    return ListView.builder(
+                      itemCount: snapshot.data!.docs.length,
+                      itemBuilder: (context, index) {
+                        // get the message
+                        final post = snapshot.data!.docs[index];
+                        return FeedPost(
+                          message: post['message'],
+                          user: post['user'],
+                        );
+                      },
+                    );
+                  } else if (snapshot.hasError) {
+                    return Center(
+                      child: Text('Error + ${snapshot.error}'),
+                    );
+                  }
+                  return const Center(child: CircularProgressIndicator());
+                },
+              ),
+            ),
+            // Tweet
+            Padding(
+              padding: const EdgeInsets.all(25.0),
+              child: Row(
+                children: [
+                  //Textfield
+                  Expanded(
+                    // child: MyTextField(
+                    //   controller: textController,
+                    //   hintText: 'Write something in the feed',
+                    //   obscureText: false,
+                    // ),
+                    child: TextFormField(
+                      controller: textController,
+                      validator: (value) {
+                        if (value == null || value.isEmpty) {
+                          return 'please enter some text';
+                        }
+                        return null;
+                      },
+                    ),
+                  ),
+                  //Post button
+                  IconButton(
+                    onPressed: postMessage,
+                    icon: const Icon(Icons.arrow_circle_up),
+                  )
+                ],
+              ),
+            ),
+            // loggin is as
+            Text("Logged in as:" + currentUser.email!),
+          ],
+        ),
       ),
       body: Column(
         children: [
