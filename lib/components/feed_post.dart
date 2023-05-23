@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:twitblind/speak/speakable.dart';
 
 class FeedPost extends StatelessWidget {
   final String message;
@@ -14,25 +15,20 @@ class FeedPost extends StatelessWidget {
   Widget build(BuildContext context) {
     return Container(
       decoration: BoxDecoration(
-          color: Colors.white, borderRadius: BorderRadius.circular(8)),
-      margin: EdgeInsets.only(top: 25, left: 25, right: 25),
-      padding: EdgeInsets.all(25),
-      child: Row(
+          color: Colors.white, borderRadius: BorderRadius.circular(10)),
+      // margin: EdgeInsets.only(top: 25, left: 25, right: 25),
+      padding: EdgeInsets.fromLTRB(20, 15, 20, 25),
+      child: Column(
+        crossAxisAlignment: CrossAxisAlignment.start,
         children: [
-          // profile pic
-
-          // message and user post
-          Column(
-            crossAxisAlignment: CrossAxisAlignment.start,
-            children: [
-              Text(
-                user,
-                style: TextStyle(color: Colors.grey[200]),
-              ),
-              const SizedBox(height: 20),
-              Text(message),
-            ],
-          )
+          Text(
+            user,
+            style: TextStyle(color: Colors.grey[400]),
+          ),
+          const SizedBox(height: 20),
+          Text(
+            message,
+          ),
         ],
       ),
     );

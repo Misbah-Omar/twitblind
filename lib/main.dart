@@ -5,7 +5,7 @@ import 'package:twitblind/auth/login_or_register.dart';
 import 'package:twitblind/firebase_options.dart';
 import 'package:twitblind/pages/home_page.dart';
 
-void main() async {
+Future<void> main() async {
   WidgetsFlutterBinding.ensureInitialized();
   await Firebase.initializeApp(options: DefaultFirebaseOptions.currentPlatform);
   runApp(const MyApp());
