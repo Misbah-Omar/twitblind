@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:twitblind/speak/speakable.dart';
 
 class FeedPost extends StatelessWidget {
   final String message;
