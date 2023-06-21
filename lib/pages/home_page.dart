@@ -21,6 +21,16 @@ class HomePage extends StatefulWidget {
 }
 
 class _HomePageState extends State<HomePage> {
+  final ScrollController _controller = ScrollController();
+
+  void _scrollToLatestItem() {
+    _controller.animateTo(
+      _controller.position.maxScrollExtent,
+      duration: Duration(seconds: 1),
+      curve: Curves.easeInOut,
+    );
+  }
+
   final _formkey = GlobalKey<FormState>;
   // speech to text
   // SpeechToText stt = SpeechToText();
@@ -46,11 +56,11 @@ class _HomePageState extends State<HomePage> {
     FirebaseAuth.instance.signOut();
   }
 
-  void postMessage() {
+  void postMessage() async {
     //only post if something is in the textfield
     if (textController.text.isNotEmpty) {
       // Store in firebase
-      FirebaseFirestore.instance.collection("User Posts").add({
+      await FirebaseFirestore.instance.collection("User Posts").add({
         'UserEmail': currentUser.email,
         'Message': textController.text,
         'TimeStamp': Timestamp.now(),
@@ -159,6 +169,7 @@ class _HomePageState extends State<HomePage> {
               builder: (context, snapshot) {
                 if (snapshot.hasData) {
                   return ListView.builder(
+                    controller: _controller,
                     itemCount: snapshot.data!.docs.length,
                     itemBuilder: (context, index) {
                       // get the message
@@ -238,7 +249,11 @@ class _HomePageState extends State<HomePage> {
                 ),
                 //Post button
                 IconButton(
-                  onPressed: postMessage,
+                  onPressed: () {
+                    postMessage();
+                    _scrollToLatestItem();
+                    textController.clear();
+                  },
                   icon: const Icon(Icons.arrow_circle_up),
                 )
               ],
