@@ -1,3 +1,5 @@
+import 'dart:async';
+
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 // import 'package:firebase_core/firebase_core.dart';
@@ -21,15 +23,7 @@ class HomePage extends StatefulWidget {
 }
 
 class _HomePageState extends State<HomePage> {
-  final ScrollController _controller = ScrollController();
-
-  void _scrollToLatestItem() {
-    _controller.animateTo(
-      _controller.position.maxScrollExtent,
-      duration: Duration(seconds: 1),
-      curve: Curves.easeInOut,
-    );
-  }
+  final _controller = ScrollController();
 
   final _formkey = GlobalKey<FormState>;
   // speech to text
@@ -66,6 +60,7 @@ class _HomePageState extends State<HomePage> {
         'TimeStamp': Timestamp.now(),
       });
     }
+    textController.clear();
   }
 
   // Sign in command Alan AI
@@ -76,7 +71,9 @@ class _HomePageState extends State<HomePage> {
         break;
       case "getTweet":
         textController.text = command["text"];
-        postMessage();
+        Timer(const Duration(seconds: 5), () {
+          postMessage();
+        });
         break;
       case "Profile page":
         goToProfile();
@@ -168,6 +165,14 @@ class _HomePageState extends State<HomePage> {
                   .snapshots(),
               builder: (context, snapshot) {
                 if (snapshot.hasData) {
+                  WidgetsBinding.instance.addPostFrameCallback((timeStamp) {
+                    if (_controller.hasClients) {
+                      _controller.animateTo(
+                          _controller.position.maxScrollExtent,
+                          duration: const Duration(milliseconds: 500),
+                          curve: Curves.easeInOut);
+                    }
+                  });
                   return ListView.builder(
                     controller: _controller,
                     itemCount: snapshot.data!.docs.length,
@@ -251,8 +256,6 @@ class _HomePageState extends State<HomePage> {
                 IconButton(
                   onPressed: () {
                     postMessage();
-                    _scrollToLatestItem();
-                    textController.clear();
                   },
                   icon: const Icon(Icons.arrow_circle_up),
                 )
