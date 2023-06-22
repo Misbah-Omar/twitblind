@@ -33,13 +33,13 @@ class MyTextBox extends StatelessWidget {
               ),
 
               //edit Button
-              IconButton(
-                onPressed: onPressed,
-                icon: Icon(
-                  Icons.settings,
-                  color: Colors.grey[800],
-                ),
-              ),
+              // IconButton(
+              //   onPressed: onPressed,
+              //   icon: Icon(
+              //     Icons.settings,
+              //     color: Colors.grey[800],
+              //   ),
+              // ),
             ],
           ),
 

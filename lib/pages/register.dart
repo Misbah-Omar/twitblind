@@ -103,15 +103,44 @@ class _RegisterPageState extends State<RegisterPage> {
                 const SizedBox(height: 25),
 
                 // username textfield
-                TextFormField(
-                  controller: usernameController,
-                  validator: (value) {
-                    if (value == null || value.isEmpty) {
-                      return 'please enter some text';
-                    }
-                    return null;
-                  },
+                Padding(
+                  padding: const EdgeInsets.fromLTRB(20, 10, 20, 0),
+                  child: TextFormField(
+                    controller: usernameController,
+                    validator: (value) {
+                      if (value == null || value.isEmpty) {
+                        return 'please enter some text';
+                      }
+                      return null;
+                    },
+                    decoration: InputDecoration(
+                      labelText: "Email",
+                      focusedBorder: OutlineInputBorder(
+                        borderRadius: BorderRadius.circular(20),
+                        borderSide: BorderSide(width: 1, color: Colors.black),
+                      ),
+                      enabledBorder: OutlineInputBorder(
+                        borderRadius: BorderRadius.circular(20),
+                        borderSide: BorderSide(
+                            width: 1,
+                            color: Theme.of(context).unselectedWidgetColor),
+                      ),
+                      border: OutlineInputBorder(
+                        borderRadius: BorderRadius.circular(20),
+                        borderSide: BorderSide(),
+                      ),
+                    ),
+                  ),
                 ),
+                // TextFormField(
+                //   controller: usernameController,
+                //   validator: (value) {
+                //     if (value == null || value.isEmpty) {
+                //       return 'please enter some text';
+                //     }
+                //     return null;
+                //   },
+
                 // MyTextField(
                 //   controller: usernameController,
                 //   hintText: 'Username',
@@ -121,15 +150,44 @@ class _RegisterPageState extends State<RegisterPage> {
                 const SizedBox(height: 10),
 
                 // Confirm Password textfield
-                TextFormField(
-                  controller: passwordController,
-                  validator: (value) {
-                    if (value == null || value.isEmpty) {
-                      return 'please enter some text';
-                    }
-                    return null;
-                  },
+                Padding(
+                  padding: const EdgeInsets.fromLTRB(20, 10, 20, 0),
+                  child: TextFormField(
+                    controller: passwordController,
+                    validator: (value) {
+                      if (value == null || value.isEmpty) {
+                        return 'please enter some text';
+                      }
+                      return null;
+                    },
+                    decoration: InputDecoration(
+                      labelText: "Password",
+                      focusedBorder: OutlineInputBorder(
+                        borderRadius: BorderRadius.circular(20),
+                        borderSide: BorderSide(width: 1, color: Colors.black),
+                      ),
+                      enabledBorder: OutlineInputBorder(
+                        borderRadius: BorderRadius.circular(20),
+                        borderSide: BorderSide(
+                            width: 1,
+                            color: Theme.of(context).unselectedWidgetColor),
+                      ),
+                      border: OutlineInputBorder(
+                        borderRadius: BorderRadius.circular(20),
+                        borderSide: BorderSide(),
+                      ),
+                    ),
+                  ),
                 ),
+                // TextFormField(
+                //   controller: passwordController,
+                //   validator: (value) {
+                //     if (value == null || value.isEmpty) {
+                //       return 'please enter some text';
+                //     }
+                //     return null;
+                //   },
+                // ),
 
                 // MyTextField(
                 //   controller: passwordController,
@@ -140,15 +198,44 @@ class _RegisterPageState extends State<RegisterPage> {
                 const SizedBox(height: 10),
 
                 // password textfield
-                TextFormField(
-                  controller: confirmPasswordTextController,
-                  validator: (value) {
-                    if (value == null || value.isEmpty) {
-                      return 'please enter some text';
-                    }
-                    return null;
-                  },
+                Padding(
+                  padding: const EdgeInsets.fromLTRB(20, 10, 20, 0),
+                  child: TextFormField(
+                    controller: confirmPasswordTextController,
+                    validator: (value) {
+                      if (value == null || value.isEmpty) {
+                        return 'please enter some text';
+                      }
+                      return null;
+                    },
+                    decoration: InputDecoration(
+                      labelText: " Confirm Password",
+                      focusedBorder: OutlineInputBorder(
+                        borderRadius: BorderRadius.circular(20),
+                        borderSide: BorderSide(width: 1, color: Colors.black),
+                      ),
+                      enabledBorder: OutlineInputBorder(
+                        borderRadius: BorderRadius.circular(20),
+                        borderSide: BorderSide(
+                            width: 1,
+                            color: Theme.of(context).unselectedWidgetColor),
+                      ),
+                      border: OutlineInputBorder(
+                        borderRadius: BorderRadius.circular(20),
+                        borderSide: BorderSide(),
+                      ),
+                    ),
+                  ),
                 ),
+                // TextFormField(
+                //   controller: confirmPasswordTextController,
+                //   validator: (value) {
+                //     if (value == null || value.isEmpty) {
+                //       return 'please enter some text';
+                //     }
+                //     return null;
+                //   },
+                // ),
                 // MyTextField(
                 //   controller: confirmPasswordTextController,
                 //   hintText: 'Confirm Password',
@@ -158,18 +245,18 @@ class _RegisterPageState extends State<RegisterPage> {
                 const SizedBox(height: 10),
 
                 // forgot password?
-                Padding(
-                  padding: const EdgeInsets.symmetric(horizontal: 25.0),
-                  child: Row(
-                    mainAxisAlignment: MainAxisAlignment.end,
-                    children: [
-                      Text(
-                        'Forgot Password?',
-                        style: TextStyle(color: Colors.grey[600]),
-                      ),
-                    ],
-                  ),
-                ),
+                // Padding(
+                //   padding: const EdgeInsets.symmetric(horizontal: 25.0),
+                //   child: Row(
+                //     mainAxisAlignment: MainAxisAlignment.end,
+                //     children: [
+                //       Text(
+                //         'Forgot Password?',
+                //         style: TextStyle(color: Colors.grey[600]),
+                //       ),
+                //     ],
+                //   ),
+                // ),
 
                 const SizedBox(height: 25),
 
