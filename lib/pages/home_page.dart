@@ -38,7 +38,7 @@ class _HomePageState extends State<HomePage> {
   _HomePageState() {
     /// Init Alan Button with project key from Alan AI Studio
     AlanVoice.addButton(
-        "893f43e48d33542fd144e05a55327f9f2e956eca572e1d8b807a3e2338fdd0dc/stage",
+        "339db7a281081921741107096e86a3342e956eca572e1d8b807a3e2338fdd0dc/stage",
         buttonAlign: AlanVoice.BUTTON_ALIGN_LEFT);
 
     // /// Handle commands from Alan AI Studio

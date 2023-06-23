@@ -2,7 +2,6 @@ import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:twitblind/components/my_button.dart';
 import 'package:twitblind/components/my_textfield.dart';
-import 'package:twitblind/components/square_tile.dart';
 import 'package:alan_voice/alan_voice.dart';
 
 class LoginPage extends StatefulWidget {
@@ -19,7 +18,7 @@ class _LoginPageState extends State<LoginPage> {
   _LoginPageState() {
     /// Init Alan Button with project key from Alan AI Studio
     AlanVoice.addButton(
-        "893f43e48d33542fd144e05a55327f9f2e956eca572e1d8b807a3e2338fdd0dc/stage",
+        "339db7a281081921741107096e86a3342e956eca572e1d8b807a3e2338fdd0dc/stage",
         buttonAlign: AlanVoice.BUTTON_ALIGN_LEFT);
 
     /// Handle commands from Alan AI Studio
@@ -270,40 +269,7 @@ class _LoginPageState extends State<LoginPage> {
 
                 const SizedBox(height: 50),
 
-                // google + apple sign in buttons
-                // Row(
-                //   mainAxisAlignment: MainAxisAlignment.center,
-                //   children: const [
-                //     // google button
-                //     SquareTile(imagePath: 'lib/images/google.png'),
-
-                //     SizedBox(width: 25),
-
-                //     // apple button
-                //     SquareTile(imagePath: 'lib/images/apple.png')
-                //   ],
-                // ),
-
                 const SizedBox(height: 50),
-
-                // not a member? register now
-                // Row(
-                //   mainAxisAlignment: MainAxisAlignment.center,
-                //   children: [
-                //     Text(
-                //       'Not a member?',
-                //       style: TextStyle(color: Colors.grey[700]),
-                //     ),
-                //     const SizedBox(width: 4),
-                //     const Text(
-                //       'Register now',
-                //       style: TextStyle(
-                //         color: Colors.blue,
-                //         fontWeight: FontWeight.bold,
-                //       ),
-                //     ),
-                //   ],
-                // )
               ],
             ),
           ),
